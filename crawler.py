@@ -10,8 +10,8 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 
 
-BASE_URL=u'http://www.sexychinese.net/tag/%E4%B8%9D%E8%A2%9C/page/'
-PAGES=range(1,8)
+BASE_URL=u'http://www.sexychinese.net/page/'
+PAGES=range(1,11)
 OUTROOT='./out'
 
 opener=urllib2.build_opener()
@@ -26,28 +26,33 @@ if __name__=='__main__':
         soup=BeautifulSoup(opener.open(url),'lxml')
         links=soup.find_all("h2",class_="post-title")
         for l in links:
-            #print l.a['href']
+            print l.a['href']
             targets.append(l.a['href'])
 
-    index=0
-    for t in targets:
+    index=89
+
+    for t in targets[89-71:]:
         if not os.path.exists('%s/%d'%(OUTROOT,index)):
             os.makedirs('%s/%d'%(OUTROOT,index))
-        print t
+        print index,len(targets),'\t',t
         soup=BeautifulSoup(opener.open(t),'lxml')
         print soup.title.string
         f_title=open('%s/%d/title'%(OUTROOT,index),'w')
         f_title.write(soup.title.string)
         f_title.close()
 
-        tag_div=soup.find("div",class_="post-content")
+        #tag_div=soup.find("div",class_="post-content")
+        tag_div=soup.find("div",class_="entry-inner")
         for tag_img in tag_div.find_all('img'):
             print tag_img["src"]
             url=tag_img['src']
             name=url.split('/')[-1]
             #print name
             img_title=open('%s/%d/%s'%(OUTROOT,index,name),'w')
-            img_title.write(opener.open(url).read())
+            try:
+                img_title.write(opener.open(url).read())
+            except:
+                print '[error] at url',url   
             img_title.close()
         #sys.exit(1)
         index+=1

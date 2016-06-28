@@ -12,6 +12,8 @@ names=os.listdir(IMAGE_ROOT)
 for x in names:
     if '.' in x:
         continue
+    if int(x) <70:
+        continue
     title=open('%s/%s/title'%(IMAGE_ROOT,x)).read().strip()
     if ']' in title:
         title=title.split(']')[-1]
