@@ -7,12 +7,17 @@ IMAGE_ROOT='./images'
 POST_ROOT='./_posts'
 
 
-names=os.listdir(IMAGE_ROOT)
+post_num=[int(i[:-3]) for i in os.listdir(POST_ROOT) if i[0]!='.']
+post_num.sort()
+last_post=post_num[-1]
+print last_post
 
+names=os.listdir(IMAGE_ROOT)
 for x in names:
     if '.' in x:
         continue
-    if int(x) <70:
+    #sys.exit(1)
+    if int(x) <=last_post:
         continue
     title=open('%s/%s/title'%(IMAGE_ROOT,x)).read().strip()
     if ']' in title:
