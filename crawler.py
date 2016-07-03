@@ -14,7 +14,6 @@ NEW_LAST_URL=''
 TAG_FILE='.last_url'
 
 def find_new_urls(opener):
-    global NEW_LAST_URL
     global TAG_FILE
 
     base_url=u'http://www.sexychinese.net/page/'
@@ -36,7 +35,6 @@ def find_new_urls(opener):
                 print '==========FOUND THE LAST ONE==========='
                 return targets
             targets.append(current_url)
-            NEW_LAST_URL=current_url
     return targets
 
 
@@ -48,6 +46,8 @@ if __name__=='__main__':
     opener=urllib2.build_opener()
     opener.addheaders=[('User-agent', 'Mozilla/5.0')]
     targets=find_new_urls(opener)
+    targets.reverse()
+    NEW_LAST_URL=targets[-1]
     #print NEW_LAST_URL
     #print targets
     
